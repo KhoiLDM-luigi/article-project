@@ -41,6 +41,11 @@ spring:
                   - openid
                   - articles.read
 
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433/auth_db
+    username: psql
+    password: 123
+
 logging:
   level:
     org:
