@@ -18,6 +18,7 @@ public class ClientGatewayApplication {
 	RouteLocator gateway(RouteLocatorBuilder rlb) {
 		return rlb.routes()
 				.route(rs -> rs.path("/articles").filters(GatewayFilterSpec::tokenRelay).uri("http://127.0.0.1:8081"))
+				.route(rs -> rs.path("/users").filters(GatewayFilterSpec::tokenRelay).uri("http://127.0.0.1:8080"))
 				.build();
 	}
 }

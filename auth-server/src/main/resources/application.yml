@@ -13,7 +13,7 @@ spring:
             articles-client:
               registration:
                 client-id: articles-client
-                client-secret: "{noop}123123123"
+                client-secret: $2a$12$djoKXwrUalKsucgpyjf.C.u8f.LalvzIXKxe.xSN3xc.ikB9pfm6i
                 client-name: Articles Client
                 client-authentication-methods:
                   - client_secret_post
