@@ -42,7 +42,8 @@ public class OAuth2Config {
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
-                .oauth2ResourceServer(Customizer.withDefaults()); // use to authenticate user's auth resource
+                .oauth2ResourceServer(res -> res.jwt(Customizer.withDefaults())); // use to authenticate user's auth
+                                                                                  // resource
 
         return http.build();
     }
