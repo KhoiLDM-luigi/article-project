@@ -10,11 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +19,21 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(csrf -> csrf.disable())
+        http
+                .csrf(csrf -> csrf.disable()) // this is for testing purposes
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/oauth2/**", "/error").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
-                .formLogin(withDefaults()).build();
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/authentication")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout=true")
+                        .permitAll());
+
+        return http.build();
     }
 
     @Bean

@@ -1,9 +1,6 @@
 package pers.khoildm.auth_server.exceptions;
 
-import java.util.logging.Logger;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

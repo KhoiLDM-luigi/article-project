@@ -40,3 +40,9 @@ spring:
                 scopes:
                   - openid
                   - articles.read
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
