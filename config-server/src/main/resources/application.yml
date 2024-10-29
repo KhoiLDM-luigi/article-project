@@ -1,0 +1,31 @@
+server:
+  port: 8083
+
+spring:
+  profiles:
+    active: jdbc
+
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      fail-fast: true
+      server:
+        jdbc:
+          sql: SELECT key, value FROM properties WHERE application=? AND profile=? AND label=?
+          order: 1
+  
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5433/config_db
+    username: psql
+    password: 123
+  
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
