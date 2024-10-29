@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // this is for testing purposes
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/error", "register").permitAll()
-                        .requestMatchers("/users/**").hasRole("admin")
+                        .requestMatchers("/users/**").hasAuthority("admin")
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

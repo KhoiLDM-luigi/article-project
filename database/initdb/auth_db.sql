@@ -38,52 +38,6 @@ CREATE TABLE oauth2_registered_client (
     PRIMARY KEY (id)
 );
 
--- org.springframework.security.oauth2.server.authorization
-CREATE TABLE oauth2_authorization_consent (
-    registered_client_id varchar(100) NOT NULL,
-    principal_name varchar(200) NOT NULL,
-    authorities varchar(1000) NOT NULL,
-    PRIMARY KEY (registered_client_id, principal_name)
-);
-
--- org.springframework.security.oauth2.server.authorization.client
-CREATE TABLE oauth2_authorization (
-    id varchar(100) NOT NULL,
-    registered_client_id varchar(100) NOT NULL,
-    principal_name varchar(200) NOT NULL,
-    authorization_grant_type varchar(100) NOT NULL,
-    authorized_scopes varchar(1000) DEFAULT NULL,
-    attributes TEXT DEFAULT NULL,
-    state varchar(500) DEFAULT NULL,
-    authorization_code_value TEXT DEFAULT NULL,
-    authorization_code_issued_at timestamp DEFAULT NULL,
-    authorization_code_expires_at timestamp DEFAULT NULL,
-    authorization_code_metadata TEXT DEFAULT NULL,
-    access_token_value TEXT DEFAULT NULL,
-    access_token_issued_at timestamp DEFAULT NULL,
-    access_token_expires_at timestamp DEFAULT NULL,
-    access_token_metadata TEXT DEFAULT NULL,
-    access_token_type varchar(100) DEFAULT NULL,
-    access_token_scopes varchar(1000) DEFAULT NULL,
-    oidc_id_token_value TEXT DEFAULT NULL,
-    oidc_id_token_issued_at timestamp DEFAULT NULL,
-    oidc_id_token_expires_at timestamp DEFAULT NULL,
-    oidc_id_token_metadata TEXT DEFAULT NULL,
-    refresh_token_value TEXT DEFAULT NULL,
-    refresh_token_issued_at timestamp DEFAULT NULL,
-    refresh_token_expires_at timestamp DEFAULT NULL,
-    refresh_token_metadata TEXT DEFAULT NULL,
-    user_code_value TEXT DEFAULT NULL,
-    user_code_issued_at timestamp DEFAULT NULL,
-    user_code_expires_at timestamp DEFAULT NULL,
-    user_code_metadata TEXT DEFAULT NULL,
-    device_code_value TEXT DEFAULT NULL,
-    device_code_issued_at timestamp DEFAULT NULL,
-    device_code_expires_at timestamp DEFAULT NULL,
-    device_code_metadata TEXT DEFAULT NULL,
-    PRIMARY KEY (id)
-);
-
 -- Data
 
 INSERT INTO auth_role(id, name, description) 
@@ -101,11 +55,11 @@ INSERT INTO oauth2_registered_client (
     client_settings, token_settings
 )
 VALUES (
-    gen_random_uuid(), 'articles-client', CURRENT_TIMESTAMP, '$2a$12$djoKXwrUalKsucgpyjf.C.u8f.LalvzIXKxe.xSN3xc.ikB9pfm6i', 
-    'Articles Client', 'client_secret_post', 'authorization_code refresh_token', 
-    'http://127.0.0.1:8082/login/oauth2/code/spring', 'openid articles.read',
-    '{"requireProofKey":true, "requireAuthorizationConsent":true}', 
-    '{"accessTokenTimeToLive":"PT1H", "refreshTokenTimeToLive":"PT24H"}'
+    gen_random_uuid(), 'articles-client', CURRENT_TIMESTAMP, '$2a$12$djoKXwrUalKsucgpyjf.C.u8f.LalvzIXKxe.xSN3xc.ikB9pfm6i', -- bcrypt: "123123123"
+    'Articles Client', 'client_secret_post', 'authorization_code,refresh_token', 
+    'http://127.0.0.1:8082/login/oauth2/code/spring', 'openid,articles.read',
+    '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":false}', 
+    '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}'
 );
 
 -- Debug Client configuration
@@ -115,9 +69,9 @@ INSERT INTO oauth2_registered_client (
     client_settings, token_settings
 )
 VALUES (
-    gen_random_uuid(), 'debug', CURRENT_TIMESTAMP, '$2a$12$fuwGsYQf8n7fTBObG6SHOuZsC/uEXzPkP0U0SnlB7dZBVQtn/mgEC', 
-    'Articles Client', 'client_secret_post', 'authorization_code refresh_token', 
-    'https://oidcdebugger.com/debug', 'openid articles.read',
-    '{"requireProofKey":true, "requireAuthorizationConsent":true}', 
-    '{"accessTokenTimeToLive":"PT1H", "refreshTokenTimeToLive":"PT24H"}'
+    gen_random_uuid(), 'debug', CURRENT_TIMESTAMP, '$2a$12$fuwGsYQf8n7fTBObG6SHOuZsC/uEXzPkP0U0SnlB7dZBVQtn/mgEC', -- bcrypt: "secret"
+    'Debug Client', 'client_secret_post', 'authorization_code,refresh_token', 
+    'https://oidcdebugger.com/debug', 'openid,articles.read',
+    '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":false}', 
+    '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}'
 );
