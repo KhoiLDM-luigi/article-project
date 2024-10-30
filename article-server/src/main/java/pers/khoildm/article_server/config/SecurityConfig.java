@@ -1,4 +1,4 @@
-package pers.khoildm.resource_server.config;
+package pers.khoildm.article_server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
-public class ResourceServerConfig {
+public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/articles/**")
