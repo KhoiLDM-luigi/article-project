@@ -3,6 +3,7 @@ package pers.khoildm.auth_server.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,8 +20,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // this is for testing purposes
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/error", "register").permitAll()
-                        .requestMatchers("/users/**").hasAuthority("admin")
+                        .requestMatchers("/users/profile").hasAuthority("SCOPE_profile")
                         .anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())) // use to authenticate user's
+                                                                                       // auth
+                                                                                       // resource
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/authentication")
@@ -28,6 +32,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
+
                         .permitAll());
 
         return http.build();

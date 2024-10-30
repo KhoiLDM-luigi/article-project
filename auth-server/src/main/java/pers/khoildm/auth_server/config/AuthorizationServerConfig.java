@@ -33,7 +33,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.security.config.Customizer;
 
 @Configuration
-public class OAuth2Config {
+public class AuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -46,9 +46,7 @@ public class OAuth2Config {
                 .exceptionHandling((exceptions) -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)))
-                .oauth2ResourceServer(res -> res.jwt(Customizer.withDefaults())); // use to authenticate user's auth
-                                                                                  // resource
+                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)));
 
         return http.build();
     }
@@ -89,5 +87,4 @@ public class OAuth2Config {
         JdbcTemplate template = new JdbcTemplate(dataSource);
         return new JdbcRegisteredClientRepository(template);
     }
-
 }
