@@ -1,4 +1,4 @@
-package pers.khoildm.resource_server.controller;
+package pers.khoildm.article_server.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("articles")
-public class Articles {
+public class ArticlesController {
     @GetMapping("")
     public ResponseEntity<String[]> getArticles() {
         return new ResponseEntity<>(new String[] { "Article 1", "Article 2", "Article 3" }, HttpStatus.FOUND);

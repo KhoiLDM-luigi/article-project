@@ -14,7 +14,7 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
-  
+
 eureka:
   client:
       fetch-registry: true
