@@ -22,13 +22,13 @@ import lombok.NoArgsConstructor;
 public class AuthRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "role")

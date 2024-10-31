@@ -20,19 +20,19 @@ import lombok.NoArgsConstructor;
 public class AuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
-    @Column
+    @Column(name = "password", unique = true)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private AuthRole role;
 
-    @Column
+    @Column(name = "email")
     private String email;
 }
