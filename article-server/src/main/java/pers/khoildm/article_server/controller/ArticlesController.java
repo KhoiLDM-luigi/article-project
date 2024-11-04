@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ArticlesController {
     private final ArticleRepository articleRepository;
 
+    @CrossOrigin
     @GetMapping("")
-    @PreAuthorize("hasAuthority('SCOPE_articles.read')")
     public ResponseEntity<ArticleListDTO> getArticles(@RequestParam(required = false) String username) {
         List<Article> articles = (username != null) ? articleRepository.findByUsername(username)
                 : articleRepository.findAll();
