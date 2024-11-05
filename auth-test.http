@@ -1,4 +1,4 @@
-@arthorization_code=LULPzoWyhSetI3vngykJxcXbQxyEnnN75Up0-NJt0ElV0scFWxIRpmy52-jQj93-LIvcGGDeVT3xLgh2dIKamwAJU0u4C7J0WvRk9fWm_flMrEdFxgxKKkgrT-cZvJa3
+@arthorization_code=olyiDJsfKz6pddyb68yjI5DZsZrROgTzi6Jx_fPcHKeiarW2HIuzOfxU0P-ywYD2Gkz3y4HXZqmEbVAeLsAqkCmrQJjrWyumpSERr7eyBRE2Lz5lb3SaRMNVbjCKX-kA
 @access_token=eyJraWQiOiI4MTBiYWEwOS1iOTcyLTRhNTUtOTE5Ni04MjkwYzEyZTA0NDkiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJzcHJpbmctYWRtaW4iLCJhdWQiOiJkZWJ1ZyIsIm5iZiI6MTczMDM1NzYzNiwic2NvcGUiOlsiYXJ0aWNsZXMucmVhZCIsImFydGljbGVzLndyaXRlIiwicHJvZmlsZSJdLCJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwODEiLCJleHAiOjE3MzAzNjEyMzYsImlhdCI6MTczMDM1NzYzNiwianRpIjoiNDkxZTE5NDMtYThkZi00M2EwLWEzMjUtYTAzNGVlMWQxODc4In0.drGZdO4kISp25Fs3BQ6pGgdBbqbv3dQIlMQLtzZj4hHOnn90i9n6NGM_SzTYYm6qNtkFmRA_nYPzsJe1YwuEbkBgfKULHfFH6QhnMiMRwaK_6CFbnrTfFtOcotzfKG_0nBDH_AkNG_kRJbxPvEq_2hwndy0drBShoIMLVgeX-QyOVQwTO8OdjWpLM9tyqku8mXCo27EQCgGR17w5_NbrsdiNvYYvqkbQ-2zX0Z2wTk5CZBAX34bK4eqHAJRglfEpyRhbcmJikuY-OLYdTQFImKlQfpIffRPC1Mi5lFeIctlfYQxzx7YPaGc6AynMmKoJmBa-z6mzOMEBl4t_ciwD1w
 
 ###
@@ -10,6 +10,15 @@ grant_type=authorization_code
 &client_id=debug
 &client_secret=secret
 &redirect_uri=https://oidcdebugger.com/debug
+###
+POST http://127.0.0.1:8081/oauth2/token
+Content-Type: application/x-www-form-urlencoded   
+
+grant_type=authorization_code
+&code={{arthorization_code}}
+&client_id=articles-client
+&client_secret=123123123
+&redirect_uri=http://127.0.0.1:8085/login/oauth2/code/spring
 ###
 GET http://127.0.0.1:8082/articles?username=test
 Authorization: Bearer {{access_token}}

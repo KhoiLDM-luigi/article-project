@@ -32,7 +32,7 @@ export default function ArticleList() {
 
     if (error) {
         return (
-            <div><h1>Something when wrong</h1></div>
+            <div><p className="text-danger">Something when wrong</p></div>
         )
     }
 

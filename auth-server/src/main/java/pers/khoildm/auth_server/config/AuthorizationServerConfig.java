@@ -37,6 +37,8 @@ public class AuthorizationServerConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults()); // enable cors for all endpoint including OAuth 2.0(if using lower order
+                                              // filter this will now applied to OAuth 2.0)
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http
                 .getConfigurer(OAuth2AuthorizationServerConfigurer.class)

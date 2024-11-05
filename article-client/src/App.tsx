@@ -1,11 +1,16 @@
-import ArticleList from "./components/ArticleList";
+import { Route, Routes } from "react-router-dom";
+import Template from "./components/Template";
+import OAuthCallback from "./components/oauth/OAuthCallback";
+import Article from "./components/article/Article";
 
 function App() {
   return (
-    <>
-      <h1>Article List</h1>
-      <ArticleList />
-    </>
+    <Template>
+      <Routes>
+        <Route path="" element={<Article />} />
+        <Route path="/login/oauth2/code/spring" element={<OAuthCallback />} />
+      </Routes>
+    </Template>
   )
 }
 
