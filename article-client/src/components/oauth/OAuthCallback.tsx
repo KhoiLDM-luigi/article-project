@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const provider = {
     loginUri: "http://127.0.0.1:8081/oauth2/authorize",
-    scope: "articles.read",
+    scope: "articles.read profile",
     exchangeAccessTokenUrl: "http://127.0.0.1:8081/oauth2/token",
     clientId: "articles-client",
     clientSecret: "123123123",
