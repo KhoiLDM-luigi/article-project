@@ -20,8 +20,7 @@ grant_type=authorization_code
 &client_secret=123123123
 &redirect_uri=http://127.0.0.1:8085/login/oauth2/code/spring
 ###
-GET http://127.0.0.1:8082/articles?username=test
-Authorization: Bearer {{access_token}}
+GET http://127.0.0.1:8082/articles/1
 ###
 GET http://127.0.0.1:8081/users/profile
 Authorization: Bearer {{access_token}}

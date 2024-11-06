@@ -12,7 +12,7 @@ export default function ArticleList() {
         try {
             const response = await axios.get("http://127.0.0.1:8082/articles")
             if (response.status == axios.HttpStatusCode.Ok) {
-               setArticleList(response.data.articles)
+               setArticleList(response.data._embedded.articleDTOList)
                setLoading(false)
             }
             else {
@@ -39,7 +39,7 @@ export default function ArticleList() {
     return (
         <div className="article-list"> 
             {loading ? <Spinner animation="border" variant="dark" /> :
-               articleList.map((item: any, num: any) => (<ArticleCard key={num} by={item.by} title={item.title} content={item.content} />))
+               articleList.map((item: any, num: any) => (<ArticleCard key={num} data={item} />))
             }
         </div>
     )

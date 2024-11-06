@@ -1,5 +1,6 @@
 package pers.khoildm.article_server.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -10,9 +11,11 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import pers.khoildm.article_server.dto.ArticleDTO;
 import pers.khoildm.article_server.dto.ArticleFormDTO;
 import pers.khoildm.article_server.dto.ArticleListDTO;
 import pers.khoildm.article_server.model.Article;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 @RestController
 @RequestMapping("articles")
@@ -29,14 +34,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ArticlesController {
     private final ArticleRepository articleRepository;
 
-    @CrossOrigin
     @GetMapping("")
-    public ResponseEntity<ArticleListDTO> getArticles(@RequestParam(required = false) String username) {
+    public ResponseEntity<CollectionModel<ArticleDTO>> getArticles(@RequestParam(required = false) String username) {
         List<Article> articles = (username != null) ? articleRepository.findByUsername(username)
                 : articleRepository.findAll();
-        ArticleListDTO responses = new ArticleListDTO(articles);
+
+        ArrayList<ArticleDTO> dtos = new ArrayList<>();
+        for (Article article : articles) {
+            ArticleDTO dto = new ArticleDTO(article);
+            dto.add(WebMvcLinkBuilder
+                    .linkTo(WebMvcLinkBuilder.methodOn((ArticlesController.class)).getArticleById(article.getId()))
+                    .withSelfRel());
+            dtos.add(dto);
+        }
+
+        CollectionModel<ArticleDTO> responses = CollectionModel.of(dtos);
 
         return new ResponseEntity<>(responses, HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<ArticleDTO> getArticleById(@PathVariable Long id) {
+        Article article = articleRepository.getReferenceById(id);
+        ArticleDTO dto = new ArticleDTO(article);
+        dto.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn((ArticlesController.class)).getArticleById(id))
+                .withSelfRel());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("")
