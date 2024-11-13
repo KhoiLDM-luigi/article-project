@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import ArticleCard from "./ArticleCard"
 import axios from "axios";
 import Spinner from 'react-bootstrap/Spinner';
+import { Link } from "react-router-dom";
 
 export default function ArticleList() {
     const [ loading, setLoading ] = useState(true)
@@ -37,10 +38,16 @@ export default function ArticleList() {
     }
 
     return (
-        <div className="article-list"> 
+        <div>
+            <div>
+                <Link to="/articles/add" className="btn btn-primary">New article</Link>
+            </div>
+            <div className="article-list"> 
             {loading ? <Spinner animation="border" variant="dark" /> :
                articleList.map((item: any, num: any) => (<ArticleCard key={num} data={item} />))
             }
         </div>
+        </div>
+      
     )
 }

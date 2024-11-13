@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("articles")
@@ -62,7 +63,17 @@ public class ArticlesController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PutMapping("{id}")
+    @PreAuthorize("hasAuthority('SCOPE_articles.write')")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void putMethodName(@PathVariable Long id, @RequestBody ArticleFormDTO form) {
+        Article article = articleRepository.getReferenceById(id);
+        article.setContent(form.getContent());
+        article.setTitle(form.getTitle());
+        articleRepository.save(article);
+    }
+
+    @PostMapping("/")
     @PreAuthorize("hasAuthority('SCOPE_articles.write')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void postMethodName(@RequestBody ArticleFormDTO form, @AuthenticationPrincipal Jwt token) {
