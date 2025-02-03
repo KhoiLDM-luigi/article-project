@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import pers.khoildm.article_server.dto.ArticleDTO;
 import pers.khoildm.article_server.dto.ArticleFormDTO;
-import pers.khoildm.article_server.dto.ArticleListDTO;
 import pers.khoildm.article_server.model.Article;
 import pers.khoildm.article_server.repository.ArticleRepository;
 

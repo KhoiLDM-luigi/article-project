@@ -1,8 +1,8 @@
-name: spring-db
+name: article-project
 
 services:
   postgres: 
-    image: postgres:17.0
+    image: article-db
     restart: unless-stopped
     environment:
       - POSTGRES_DB=spring
@@ -10,9 +10,8 @@ services:
       - POSTGRES_PASSWORD=123
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./initdb:/docker-entrypoint-initdb.d/
     ports:
-      - "5433:5432"
+      - "5435:5432"
 
 volumes:
   db-data: 
