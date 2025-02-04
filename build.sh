@@ -7,7 +7,7 @@ OUT_DIR=$SCRIPT_DIR/dist
 MVN=$SCRIPT_DIR/mvnw
 MVN_BUILD="$MVN clean package -DskipTests"
 
-mvn_dk_build() 
+mvn_ms_build() 
 {
     PROJECT=$1
     cd $SCRIPT_DIR/$PROJECT
@@ -43,13 +43,13 @@ build()
     article_client_build
 
     # article server
-    mvn_dk_build article-server
+    mvn_ms_build article-server
     # auth server
-    mvn_dk_build auth-server
+    mvn_ms_build auth-server
     # config server
-    mvn_dk_build config-server
+    mvn_ms_build config-server
     # netflix eureka 
-    mvn_dk_build eureka
+    mvn_ms_build eureka
 
     # database
     cp -r $SCRIPT_DIR/database $OUT_DIR/article-db

@@ -12,6 +12,7 @@ This project is for learning Spring Security, OAuth 2.0, and implementing a auth
 
 No other security concern/standard are in mind in this system
 
-Web client is really bad as I'm not a GUI engineer and new to React
+Web client is really bad(lol)
 
 [OAuth 2.0 learning](doc/oauth2.md)
+[Spring Start Up sequence](doc/spring-starter.md)
