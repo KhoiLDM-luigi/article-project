@@ -3,7 +3,7 @@ spring:
     name: article-server
 
   profiles:
-    active: default
+    active: dev
   
   config:
     import: "optional:configserver:"
@@ -17,8 +17,7 @@ spring:
 
 eureka:
   client:
-      fetch-registry: true
-      register-with-eureka: true
-      serviceUrl:
-        defaultZone: http://127.0.0.1:8761/eureka
-
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka

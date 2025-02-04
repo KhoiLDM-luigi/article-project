@@ -1,7 +1,87 @@
 name: article-project
 
 services:
-  postgres: 
+  article-client:
+    image: article-client
+    restart: unless-stopped
+    ports: 
+      - 80:80
+      - 443:443
+    networks: 
+    - article-network
+    depends_on:
+      article-server:
+        condition: service_started
+    
+  article-server:
+    command: ['--spring.profiles.active=docker', '--eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka']
+    image: article-server
+    restart: unless-stopped
+    ports:
+      - 8082:8082
+    networks: 
+    - article-network
+    depends_on:
+      article-db:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+
+  auth-server:
+    command: ['--spring.profiles.active=docker', '--eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka']
+    image: auth-server
+    ports:
+      - 8081:8081
+    restart: unless-stopped
+    networks: 
+    - article-network
+    depends_on:
+      article-db:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+  config-server:
+    command: '--spring.profiles.active=docker,jdbc'
+    image: config-server
+    restart: unless-stopped
+    expose:
+      - 8083
+    networks: 
+    - article-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://config-server:8083/actuator/health"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    depends_on:
+      article-db:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+
+  eureka:
+    command: '--spring.profiles.active=docker'
+    image: eureka
+    restart: unless-stopped
+    expose:
+      - 8761
+    networks: 
+    - article-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://eureka:8761/actuator/health"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+  article-db: 
     image: article-db
     restart: unless-stopped
     environment:
@@ -12,6 +92,18 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - "5435:5432"
+    networks: 
+    - article-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U psql -d spring"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+
+networks:
+  article-network:
 
 volumes:
   db-data: 

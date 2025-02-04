@@ -17,18 +17,30 @@ mvn_dk_build()
     sed 's/${PROJECT}'"/${PROJECT}/g" $SCRIPT_DIR/generic.java.dockerfile > $OUT_DIR/$PROJECT/Dockerfile
 }
 
+article_client_build()
+{
+    cd $SCRIPT_DIR/article-client
+    # react build
+    npm install . 
+    npm run build 
+
+    # packaging
+    mkdir -p $OUT_DIR/article-client 
+    cp -r dist config $OUT_DIR/article-client
+    cp Dockerfile $OUT_DIR/article-client
+    
+    cd $OUT_DIR/article-client
+    # generate ssl certs
+    openssl req -x509 -newkey rsa:4096 -keyout config/ssl/key.pem -out config/ssl/cert.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=VN/L=HCM/O=pers/OU=khoildm/CN=127.0.0.1"
+}
+
 build() 
 {   
     rm -rf $OUT_DIR
     mkdir $OUT_DIR
 
     # article client
-    cd $SCRIPT_DIR/article-client
-    npm install . 
-    npm run build 
-    mkdir -p $OUT_DIR/article-client 
-    cp -r dist config $OUT_DIR/article-client
-    cp Dockerfile $OUT_DIR/article-client
+    article_client_build
 
     # article server
     mvn_dk_build article-server

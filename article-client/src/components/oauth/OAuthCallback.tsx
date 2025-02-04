@@ -9,7 +9,7 @@ export const provider = {
     exchangeAccessTokenUrl: "http://127.0.0.1:8081/oauth2/token",
     clientId: "articles-client",
     clientSecret: "123123123",
-    redirectUri: "http://127.0.0.1:8085/login/oauth2/code/spring"
+    redirectUri: "http://127.0.0.1/login/oauth2/code/spring"
 }
 
 export default function OAuthCallback() {
