@@ -55,14 +55,4 @@ build()
     cp -r $SCRIPT_DIR/database $OUT_DIR/article-db
 }
 
-dk_publish() 
-{
-    for dir in $(find $OUT_DIR -type d); do 
-        if [[ -f "$dir/dockerfile" ]]; then 
-            docker build -t $(basename $dir) $dir
-        fi
-    done
-}
-
 build
-dk_publish
