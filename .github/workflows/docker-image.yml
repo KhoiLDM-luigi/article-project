@@ -9,9 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
     steps:
     - uses: actions/checkout@v4
+    - name: Setup NodeJS ${{ matrix.node-version }}
+      uses: actions/setup-node@v4 
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - name: Build App
-      run: bash build.shs
+      run: bash build.sh
     - name: Publish App
       run: bash docker-publish.sh
