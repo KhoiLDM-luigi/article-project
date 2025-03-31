@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-server
+  template:
+    metadata:
+      labels: 
+        app: auth-server
+    spec:
+      containers:
+        - name: auth-server
+          args:
+            - --spring.profiles.active=docker
+            - --eureka.client.serviceUrl.defaultZone=http://eureka:8761/eureka
+          image: khoildm2508/auth-server
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports: 
+          - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-server-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: auth-server
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8081
+      targetPort: 8081

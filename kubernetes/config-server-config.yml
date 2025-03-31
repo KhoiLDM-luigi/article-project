@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels: 
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          args:
+            - --spring.profiles.active=docker,jdbc
+            - --eureka.instance.preferIpAddress=true
+          image: khoildm2508/config-server
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports: 
+          - containerPort: 8083

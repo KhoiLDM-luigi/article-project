@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    
     - name: Setup NodeJS 23.x
       uses: actions/setup-node@v4 
       with:
         node-version: 23.x
         cache-dependency-path: article-client
         cache: 'npm'
-    - name: Build App
+    
+    - name: Build and publish
       run: bash build.sh
-    - name: Publish App
-      run: bash docker-publish.sh
