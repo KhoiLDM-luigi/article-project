@@ -16,7 +16,6 @@ spec:
         - name: eureka
           args:
             - '--spring.profiles.active=docker'
-            - '--eureka.instance.preferIpAddress=true'
           image: khoildm2508/eureka
           resources:
             requests:
@@ -33,7 +32,8 @@ kind: Service
 metadata:
   name: eureka
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
+  type: NodePort
   selector:
     app: eureka
   ports:

@@ -55,7 +55,8 @@ kind: Service
 metadata:
   name: article-db
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
+  type: NodePort
   selector:
     app: article-db
   ports: 
