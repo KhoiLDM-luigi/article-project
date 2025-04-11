@@ -20,4 +20,4 @@ jobs:
         cache: 'npm'
     
     - name: Build and publish
-      run: bash build.sh
+      run: bash build.sh latest
